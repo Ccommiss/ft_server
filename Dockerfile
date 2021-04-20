@@ -3,23 +3,18 @@ FROM debian:buster
 RUN apt-get update -y
 RUN apt-get install -y vim
 
-#pour nginx
+
 RUN apt-get install -y nginx
 RUN apt-get install -y mariadb-server mariadb-client
-# ???
-
-# RUN mysql_install_db
 RUN apt-get install -y php php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
-
-
 
 #Add PHP processor
 COPY default /etc/nginx/sites-available/default
-
-## dedans : faire service php7.3-fpm start
-## + service nginx start
-## + service mysql start
-
+# pour ssl
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+RUN openssl dhparam -out /etc/nginx/dhparam.pem 1024
+COPY self-signed.conf /etc/nginx/snippets/self-signed.conf
+COPY ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 ## WORDPRESS
 RUN apt-get install -y curl
@@ -36,31 +31,16 @@ RUN mv phpmyadmin /var/www/html/
 RUN chown www-data.www-data /var/www/html/phpmyadmin -R
 
 COPY config.inc.php /var/www/html/phpmyadmin/config.inc.php
-
-
 COPY wp-config.php /var/www/html/wordpress/
-
 COPY wp-launch.sql /var/www/html/wordpress/
 COPY wp_paris.sql /var/www/html/wordpress/
 
-RUN cd /var/www/html/wordpress/ && mariadb -e "source wp-launch.sql"
-RUN cd /var/www/html/wordpress/ && mariadb -e "source wp_paris.sql"
-
-
-
-
-# RUN chown -R www-data:www-data /var/www/html/wordpress
 
 #POUR PHP
-# RUN mkdir /var/www/your_domain/
-## RUN touch /var/www/your_domain/html/index.html
-# RUN chown -R $USER:$USER /var/www/your_domain
-# COPY your_domain /etc/nginx/sites-available/your_domain
-# RUN ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
-RUN nginx -t
-# RUN service nginx reload
-
-COPY test.php /var/www/html/test.php
+COPY launch.sh /var/
+ENV autoindex=on
+RUN echo $autoindex
+CMD bash /var/launch.sh && bash
 
 
 ## pour le pare feu amis askip pas besoin
@@ -77,4 +57,4 @@ COPY test.php /var/www/html/test.php
 #RUN apt-get install -y zsh
 #RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN service nginx start
+
