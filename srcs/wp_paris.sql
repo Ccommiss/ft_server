@@ -406,7 +406,7 @@ CREATE TABLE `wp_usermeta` (
 --
 
 INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
-(1, 1, 'nickname', 'lol'),
+(1, 1, 'nickname', 'ccommiss'),
 (2, 1, 'first_name', ''),
 (3, 1, 'last_name', ''),
 (4, 1, 'description', ''),
@@ -449,7 +449,7 @@ CREATE TABLE `wp_users` (
 --
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
-(1, 'lol', '$P$ByJrAJSgD.qRLVFhV0gvsVlwS6cg0i1', 'lol', 'claire@42l.fr', 'http://localhost/wordpress', '2021-04-19 13:38:48', '', 0, 'lol');
+(1, 'ccommiss', '548a57decc1f4684cc2d028f2c54f032', 'ccommiss', 'claire@42l.fr', 'http://localhost/wordpress', '2021-04-19 13:38:48', '', 0, 'ccommiss');
 
 --
 -- Index pour les tables déchargées

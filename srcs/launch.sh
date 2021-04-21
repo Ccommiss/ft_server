@@ -13,3 +13,4 @@ service mysql start
 cd /var/www/html/wordpress/ && mariadb -e "source wp-launch.sql"
 cd /var/www/html/wordpress/ && mariadb -e "source wp_paris.sql"
 echo "Autoindex is set to $autoindex"
+tail -f /dev/null

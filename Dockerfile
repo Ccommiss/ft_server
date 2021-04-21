@@ -23,4 +23,4 @@ COPY srcs/wp_paris.sql /var/www/html/wordpress/
 #Launch script to start services (php, wp, mariadb)
 COPY srcs/launch.sh /var/
 ENV autoindex=on
-CMD bash /var/launch.sh && bash
+CMD bash /var/launch.sh
