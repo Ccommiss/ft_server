@@ -10,6 +10,8 @@ server {
     server_name localhost;
 
     location / {
+		autoindex on;
+		autoindex off;
         try_files $uri $uri/ =404;
     }
 
@@ -24,26 +26,9 @@ server {
 }
 
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.php index.html index.htm index.nginx-debian.html;
+    listen 80;
+    listen [::]:80;
 
     server_name localhost;
-
-    location / {
-		autoindex on;
-		autoindex off;
-        try_files $uri $uri/ =404;
-    }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
+	return 301 https://localhost$request_uri;
 }
